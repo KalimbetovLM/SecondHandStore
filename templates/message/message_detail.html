@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% block title %}Detail{% endblock title %}
+{% block content %}
+<div class="container">
+    <h5 class="bold">{{ my_message.sender.username }}</h5>
+    <form class="form-control">
+        {{ my_message.text }} <br>
+        {{ my_message.created_at }}
+        <button class="m-3 btn btn-primary"><a href="{% url 'message:send_message' my_message.sender.id %}" class="text-decoration-none text-light">
+            Reply
+        </a></button>
+    </form>
+</div>
+{% endblock content %}

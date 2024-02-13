@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <head>
+        <title>{{product.name}} edit</title>
+    </head>
+    {% if messages %}
+    {% for  message in messages %}
+    <div class="{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <div>
+        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save changes</button>
+        </form>
+    </div>
+{% endblock content %}

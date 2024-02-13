@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <head>
+        <title>Products list</title>
+    </head>
+    <div>
+        {% if messages %}
+        {% for message in messages %}
+        <div>{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% if product_list %}
+            <div class="row">
+            {% for product in product_list %}
+            <div class="col-3 mt-3">
+                <div class="card border border-info" style="width: 15.2rem;">
+                    <img src="{{ product.image.url }}" style="width:15rem;height:15rem; " class="card-img-top" alt="There's a image">
+                    <div class="card-body bg-dark">
+                        <h5 class="card-title text-info">{{ product.name }}</h5>
+                        <p class="card-text text-info">{{ product.description | truncatewords:15 }}</p>
+                        <span><p class="card-text text-info disabled">Price: {{ product.price }}</p></span>
+                        <span><button class="btn btn-info"><a class="text-decoration-none text-light" href="{% url 'products:product_detail' product.pk %}">Detail</a></button></span>
+                    </div>
+                </div>    
+            </div>                
+            {% endfor %}
+            </div>
+        {% else %}
+        No products found
+        {% endif %}
+    </div>
+{% endblock content %}

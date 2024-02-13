@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<head>
+    <title>{{ product.name }}</title>   
+</head>
+
+{% if messages %}
+{% for message in messages %}
+<h3 class="{{messages.tag}}">{{ message }}</h3>
+{% endfor %}
+{% endif %}
+
+  <div class="card m-auto" style="width: 24rem;">
+      <img src="{{ product.image.url }}" class="card-img-top" alt="There's a image">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+        <p class="card-text disabled">{{ product.price }}</p>
+        {% if product.user == request.user %}
+        <a href="{% url 'products:delete_confirmation' product.pk %}" class="d-inline btn btn-primary">Remove</a>
+        <a href="{% url 'products:product_edit' product.pk %}" class="d-inline btn btn-primary">Edit</a>
+        {% endif %}
+        {% if not product.user == request.user %}
+        <a href="{% url 'message:send_message' product.user.pk %}" class="d-inline btn btn-primary">Contact</a>
+        <a href="{% url 'products:buy_product' product.pk %}" class="d-block mt-3 btn btn-primary">Add to Basket</a>
+        {% endif %}
+      </div>
+  </div>
+
+{% if request.user.is_authenticated %}
+<div class="container">
+    <form method="post" class="form-control">{% csrf_token %}
+        <p>Add Review</p>
+        {{ review_form | crispy }}
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+</div>
+{% endif %}
+<div class="accordion accordion-flush mb-5" id="accordionFlushExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+         {{ reviews.count }} reviews
+        </button>
+      </h2>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+          {% if reviews %}
+          <div class="form-control">
+          {% for review in reviews %}
+          <div class="col-6"> 
+            <p class="disabled">{{ review.user}} | {{ review.created_at }}</p>
+            <h6>{{ review.text }}</h6>
+          </div>
+          {% endfor %}
+        </div> 
+        {% else %}
+        <h4>No reviews</h4>
+        {% endif %}
+
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}

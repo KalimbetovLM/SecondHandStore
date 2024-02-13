@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% block title %}Accepted Messages{% endblock title %}
+{% block content %}
+<div class="container">
+    {% if accepted_messages %}
+    {% for message in accepted_messages %}    
+    <div class="row bg-dark border rounded m-1 border-info ">
+    <div class="col-2 text-info border border-right">
+        <h5 class="bold">From: {{ message.sender.username }}</h5> <hr>
+    </div>
+    <div class="col-8">
+        <a href="{% url 'message:message_detail' message.pk %}" class="text-light text-decoration-none"><p>{{ message.text | truncatewords:10 }}</p></a>
+    </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    no messages found
+    {% endif %}
+</div>
+{% endblock content %}
+

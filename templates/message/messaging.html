@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Message{% endblock title %}
+{% block content %}
+    <div class="container border-info rounded mt-3 bg-dark">
+        <h5 class="text-info">
+            {% if messages %}
+                {% for message in messages %}
+                {{ message }} to {{ accepter.username }}
+                {% endfor %}
+            {% else %}
+            Message to {{ accepter.username }}
+            {% endif %}
+        </h5>
+        <form method="post">{% csrf_token %}
+            {{ message_form | crispy }}
+            <button class="btn text-info border-info btn-dark px-4 m-2" type="submit"><i class="bi bi-send"></i></button>
+        </form>
+    </div>
+{% endblock content %}

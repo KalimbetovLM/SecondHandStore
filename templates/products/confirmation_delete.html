@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <head>
+        <title>{{ product.name }} delete</title>
+    </head>
+    <div>
+        <h3>{{ product.name }}</h3>
+        <img src="{{ product.image.url }}" alt="There's an image">
+        <p>{{ product.description }}</p>
+        <span>{{ product.publish_time }}</span>
+        <h4>Are you sure you want to remove this post?</h4>
+        <a href="{% url 'products:product_delete' product.pk %}">
+            <button>Yes, I'm sure</button>
+        </a>
+        <a href="{% url 'products:product_detail' product.pk %}">
+            <button>No, take me back</button>
+        </a>
+    </div>
+{% endblock content %}
